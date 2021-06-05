@@ -22,6 +22,7 @@ public class AI : MonoBehaviour
 
     float visibleRange = 80.0f;
     float shotRange = 40.0f;
+    float distance ;
 
     void Start()
     {
@@ -171,9 +172,9 @@ public class AI : MonoBehaviour
         //retorna true
         return true;
     }
- 
 
-  
+
+
     [Task]
     //faz ele virar no angulo escolhido
     bool Turn(float angle)
@@ -191,7 +192,9 @@ public class AI : MonoBehaviour
         return this.health < health;
     }
 
-    
+   
+
+
     [Task]
     public bool Explode()
     {
@@ -201,6 +204,25 @@ public class AI : MonoBehaviour
         Destroy(this.gameObject);
         //retorna true
         return true;
+    }
+    [Task]
+    //faz o robo seguir o player
+    public void seek()
+    {
+        //seta a posição do player como destino
+        agent.SetDestination(player.position);
+        Task.current.Succeed();
+    }
+    [Task]
+    public void seekAndFire()
+    {
+        //seta a posição do player como destino
+        agent.SetDestination(player.position);
+        //instamcia o prefab da bala e guarda na variavel bullet
+        GameObject bullet = GameObject.Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+        //adiciona força na bala
+        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 2000);
+        Task.current.Succeed();
     }
 }
 
