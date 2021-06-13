@@ -23,12 +23,16 @@ public class AI : MonoBehaviour
     float visibleRange = 80.0f;
     float shotRange = 40.0f;
     float distance ;
+    public float distanceToRun = 50;
+
+    public Transform[] patrols;
+    int i = 0;
 
     void Start()
     {
         //pega o componente e atribui a varivel
         agent = this.GetComponent<NavMeshAgent>();
-        agent.stoppingDistance = shotRange - 5; //for a little buffer
+       // agent.stoppingDistance = shotRange - 5; //for a little buffer
         InvokeRepeating("UpdateHealth",5,0.5f);
     }
 
@@ -223,6 +227,54 @@ public class AI : MonoBehaviour
         //adiciona força na bala
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 2000);
         Task.current.Succeed();
+    }
+
+    [Task]
+    public void Fugir()
+    {
+        //pega a distancia entre duas posiçoes
+        float distance = Vector3.Distance(transform.position, player.transform.position);
+        //se a distancia for menor que a distancia para correr
+        if (distance <= distanceToRun)
+        {
+            //direção do player
+            Vector3 dirToPlayer = player.transform.position - transform.position;
+            //direção contraria do player
+            Vector3 newPos = transform.position - dirToPlayer;
+            //seta o destino como a direção contraria do player
+            agent.SetDestination(newPos);
+            //aumenta a velocidade
+            agent.speed = 30;
+        }
+        //se a distancia do player for maior que a distancia para correr
+        if (distance > distanceToRun)
+        {
+            //termina a task
+            Task.current.Succeed();
+        }
+
+    }
+
+    [Task]
+
+    public void rondar()
+    {
+        //seta o destino usando a posição que esta no array
+            agent.SetDestination(patrols[i].position);
+        //se a distancia entre o droid e o destino for menor que 15
+        if(Vector3.Distance(transform.position, patrols[i].position) <= 15f)
+        {
+           //termina a task
+            Task.current.Succeed();
+            //adiciona um no i 
+            i++;
+            //se p i for maior que 3
+            if (i > 3)
+            {
+                //iguala o i a 0
+                i = 0;
+            }
+        }
     }
 }
 

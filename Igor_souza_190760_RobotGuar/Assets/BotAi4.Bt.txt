@@ -5,18 +5,16 @@ tree("Root")
 
 tree("Patrol")
 	fallback
-		tree("Seek")
+		tree("Fuga")
 		while IsHealthLessThan(100.0) 
 			fallback
 				tree("Wander")
 
-tree("Seek")
+tree("Fuga")
 	while SeePlayer
 		sequence
-			TargetPlayer
-			LookAtTarget
-			Wait(0.2)
-			Fire
+			Fugir
+			Wait(0.1)
 			
 			
 
@@ -27,7 +25,7 @@ tree("Dead")
 
 tree("Wander")
 	sequence
-		rondar
-		Wait(0.1)
+		PickRandomDestination
+		MoveToDestination
 
 

@@ -10,6 +10,7 @@ tree("Patrol")
 			fallback
 				tree("Wander")
 
+//enquanto ver o player ele atira
 tree("Attack")
 	while SeePlayer
 		sequence
@@ -18,11 +19,12 @@ tree("Attack")
 			Wait(0.1)
 			Fire
 
+//se a vida for menor que 0.1 ele explode
 tree("Dead")
 	sequence
 		IsHealthLessThan(0.1)
 		Explode
-
+//pega um destino aleatorio e se move para ele
 tree("Wander")
 	sequence
 		PickRandomDestination

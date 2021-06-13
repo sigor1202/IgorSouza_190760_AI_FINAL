@@ -2,28 +2,31 @@ tree("Root")
 	parallel
 		repeat mute tree("Patrol")
 		repeat mute tree("Dead")
-
+//se a vida for menor passa para o wander
 tree("Patrol")
 	fallback
 		tree("Seek")
 		while IsHealthLessThan(40.0) 
 			fallback
 				tree("Wander")
-
+//enquanto ver o player segue e atira
 tree("Seek")
 	while SeePlayer
 		sequence
+			TargetPlayer
+			LookAtTarget
 			seek
 			Wait(0.2)
 			Fire
 			
 			
-
+//se a vida for menor que 0.1 explode
 tree("Dead")
 	sequence
 		IsHealthLessThan(0.1)
 		Explode
 
+//pega uma posilção aleatoria como destino
 tree("Wander")
 	sequence
 		PickRandomDestination

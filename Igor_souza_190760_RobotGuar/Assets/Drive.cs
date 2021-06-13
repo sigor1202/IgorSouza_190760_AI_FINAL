@@ -64,10 +64,24 @@ public class Drive : MonoBehaviour {
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        //se a tag de quem colidiu for area
+        if(other.CompareTag("area"))
+        {
+            //tira 100 da vida
+            health -= 100;
+            //destroi a outro objeto e seus pais
+            Destroy(other.transform.parent.gameObject);
+        }
+    }
+
 
     public void Respawn()
     {
+        //iguala a vida a 100
         health = 100;
+        //aparece na posição escolhida para o spawn
         transform.position = spawn.position;
     }
 }

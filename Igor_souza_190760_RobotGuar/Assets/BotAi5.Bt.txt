@@ -15,8 +15,7 @@ tree("Seek")
 		sequence
 			TargetPlayer
 			LookAtTarget
-			Wait(0.2)
-			Fire
+			seek
 			
 			
 
